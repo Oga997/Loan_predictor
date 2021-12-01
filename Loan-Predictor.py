@@ -4,8 +4,9 @@ import pandas as pd
 import streamlit as st
 import pickle
 
-
-model = pickle.load(open('pickle/predictor.pkl', 'rb'))
+with open("predictor", 'rb') as f:
+  model = pickle.load(f)
+#model = pickle.load(open('pickle/predictor.pkl', 'rb'))
 
 st.header("Check if you are eligible to get a loan")
 account_no = st.text_input('Enter Account number')
