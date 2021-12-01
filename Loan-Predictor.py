@@ -4,7 +4,7 @@ import pandas as pd
 import streamlit as st
 import pickle
 
-with open("predictor", 'rb') as f:
+with open("predictor.pkl", 'rb') as f:
   model = pickle.load(f)
 #model = pickle.load(open('pickle/predictor.pkl', 'rb'))
 
