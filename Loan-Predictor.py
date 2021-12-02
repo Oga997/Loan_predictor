@@ -3,10 +3,12 @@ import numpy as np
 import pandas as pd
 import streamlit as st
 import pickle
+import time
 
-model = pickle.load(open('predictor.pkl', 'rb'))
-
-st.header("Check if you are eligible to get a loan")
+model = pickle.load(open('./predictor.pkl', 'rb'))
+st.title("Loan prediction using machine learning")
+st.markdown("***")
+st.header("Check if you are eligible to get the loan")
 account_no = st.text_input('Enter Account number')
 
     ## Full Name
@@ -47,35 +49,37 @@ dur_options = range(len(dur_display))
 dur = st.selectbox("Loan Duration",dur_options, format_func=lambda x: dur_display[x])
 
 if st.button("Predict"):
-    duration = 0
-    if dur == 0:
-        duration = 60
-    if dur == 1:
-        duration = 180
-    if dur == 2:
-        duration = 240
-    if dur == 3:
-        duration = 360
-    if dur == 4:
-        duration = 480
-    features = [[edu, emp, mon_income, co_mon_income, loan_amt, duration, cred, prop]]
-    print(features)
-    prediction = model.predict(features)
-    lc = [str(i) for i in prediction]
-    ans = int("".join(lc))
-    if ans == 0:
-        st.error(
-                "Hello: " + fn +" || "
-                "Account number: "+account_no +' || '
-                'According to our Calculations, you will not get the loan from Bank')
+    if account_no=="":
+        st.error("Please enter your account number")
+    elif fn=="":
+        st.error("Please enter your name")
     else:
-        st.success(
-                "Hello: " + fn +" || "
-                "Account number: "+account_no +' || '
-                'Congratulations!! you will get the loan from Bank')
-
-
-
-
-
+        with st.spinner('In progress...'):     
+            time.sleep(2)
+        duration = 0
+        if dur == 0:
+            duration = 60
+        if dur == 1:
+            duration = 180
+        if dur == 2:
+            duration = 240
+        if dur == 3:
+            duration = 360
+        if dur == 4:
+            duration = 480
+        features = [[edu, emp, mon_income, co_mon_income, loan_amt, duration, cred, prop]]
+        print(features)
+        prediction = model.predict(features)
+        lc = [str(i) for i in prediction]
+        ans = int("".join(lc))
+        if ans == 0:
+            st.error(
+                    "Hello: " + fn +" || "
+                    "Account number: "+account_no+ " || "
+                    'Sorry! you are not eligible to get the loan.')
+        else:
+            st.success(
+                    "Hello: " + fn +" || "
+                    "Account number: "+account_no +' || '
+                    'Congratulations!! you will get the loan from Bank')
 
