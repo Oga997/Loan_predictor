@@ -5,7 +5,7 @@ import streamlit as st
 import pickle
 import time
 
-model = pickle.load(open('./predictor.pkl', 'rb'))
+model = pickle.load(open('predictor.pkl', 'rb'))
 st.title("Loan prediction using machine learning")
 st.markdown("***")
 st.header("Check if you are eligible to get the loan")
